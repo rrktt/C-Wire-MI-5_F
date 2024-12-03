@@ -1,3 +1,8 @@
+#ifndef MAIN_H
+    #define MAIN_H
+    #include "main.h"
+
+
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -9,7 +14,7 @@ typedef struct Station{
     int capacite;
     int charge;
 
-}Staion;
+}Station;
 
 
 
@@ -20,3 +25,5 @@ struct Arbre{
 
 typedef struct Arbre Arbre;
 typedef Arbre* pArbre;
+
+#endif
