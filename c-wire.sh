@@ -9,14 +9,17 @@ testArg(){
 
     if (( $# <= 2 )) || (( $# >= 5 )) ; then
 
+        echo "argument problem / give more arguments or supp arguments"
+
         return 1
     
     else
-
         a="$(file -b $1)"
         b='ASCII text'
 
-        if [ ! -f $1 ] || [ "$a" != "$b" ] || [ "$1" != "c-wire.sh" ] ; then
+        if [ ! -f $1 ] || [ "$a" != "$b" ] || [ $(echo $1 | grep "c-wire") ] ; then
+
+            echo "problem with c-wire.dat"
 
             return 1
 
@@ -24,11 +27,15 @@ testArg(){
 
         if [ "$2" != "hva" ] && [ "$2" != "hvb" ] && [ "$2" != "lv" ] ; then
 
+            echo "problem with station's type"
+
             return 1
     
         fi
 
         if [ "$3" != "comp" ] && [ "$3" != "indiv" ] && [ "$3" != "all" ] ; then
+
+            echo "problem with type"
 
             return 1
 
@@ -38,9 +45,13 @@ testArg(){
 
             if [ $( echo $4 | grep '*[0-9]' ) ] ; then
 
+                echo "problem with cental"
+
                 return 1
 
             fi
+
+        fi
 
     
 
@@ -53,36 +64,48 @@ testArg(){
 
 
 
-
-
-echo $a
-
 echo
 
 #cat ${1}
 
-for ligne in $(<$1)
-do 
+test=`testArg`
+rep1=$?
 
-    #echo $ligne
-    hva=$(echo $ligne | cut -d';' -f3)
-    cons=$(echo $ligne | cut -d';' -f7)
-    nolv=$(echo $ligne | cut -d';' -f4)
-    #echo $aa
-    if [ "$hva" != "-" ] && [ "$cons" != "-" ] && [ "$nolv" == "-" ] ; then
+echo $rep1
 
-        echo $ligne
-        echo
-        #echo
+if [ ! $rep1 ] ; then
 
-    fi
-done
 
-c=`cut -d';' -f 1- $1`
 
-#echo $c
 
-#`cut -d';' -f 1 $1  > "tem.csv"`
+    for ligne in $(<$1)
+    do 
+
+        #echo $ligne
+        hva=$(echo $ligne | cut -d';' -f3)
+        cons=$(echo $ligne | cut -d';' -f7)
+        nolv=$(echo $ligne | cut -d';' -f4)
+        #echo $aa
+        if [ "$hva" != "-" ] && [ "$cons" != "-" ] && [ "$nolv" == "-" ] ; then
+
+            echo $ligne
+            echo
+            #echo
+
+        fi
+    done
+
+    c=`cut -d';' -f 1- $1`
+
+    #echo $c
+
+    #`cut -d';' -f 1 $1  > "tem.csv"`
+
+
+else 
+    echo $test
+    echo "exiting"    
+fi
 
 
 IFS=$oldIFS
