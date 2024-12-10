@@ -10,14 +10,19 @@ testArg(){
     if (( $# <= 2 )) || (( $# >= 5 )) ; then
 
         echo "argument problem / give more arguments or supp arguments"
-
         return 1
     
     else
-        a="$(file -b $1)"
-        b='ASCII text'
+        comp1="$(file -b $1)"
+        comp2='ASCII text'
 
-        if [ ! -f $1 ] || [ "$a" != "$b" ] || [ $(echo $1 | grep "c-wire") ] ; then
+        fichier=$(echo $1 | grep "c-wire_v00.dat")
+        ret=$?
+
+
+
+
+        if [ ! -f $1 ] || [ "$comp1" != "$comp2" ] || [ ! $ret ] ; then
 
             echo "problem with c-wire.dat"
 
@@ -33,9 +38,17 @@ testArg(){
     
         fi
 
+        if ( ( [ "$2" == "hva" ] || [ "$2" == "hvb" ] ) && ( [ "$3" == "all" ] || [ "$3" == "all" ] ) ) ; then
+
+            echo "problem with the type hvb/hva"
+
+            return 1
+
+        fi
+
         if [ "$3" != "comp" ] && [ "$3" != "indiv" ] && [ "$3" != "all" ] ; then
 
-            echo "problem with type"
+            echo "problem with the type"
 
             return 1
 
@@ -43,13 +56,20 @@ testArg(){
 
         if [ $# -eq 4 ] ; then
 
-            if [ $( echo $4 | grep '*[0-9]' ) ] ; then
+            var2=`echo $4 | cut -c1-`
 
-                echo "problem with cental"
+            for ch in $var2
+            do
 
-                return 1
+                if [ "$(echo $ch | grep '*[0-9]')" != "ch" ] ; then
 
-            fi
+                    echo "problem with cental"
+
+                    return 1
+
+                fi
+
+            done
 
         fi
 
@@ -64,16 +84,23 @@ testArg(){
 
 
 
-echo
 
-#cat ${1}
-
-test=`testArg`
+test=`testArg $@`
 rep1=$?
 
-echo $rep1
+var="12345678AZERTYU"
+var2=`echo $var | cut -c1-`
+for v in $var2
+do
 
-if [ ! $rep1 ] ; then
+    echo $v
+    echo
+done
+
+echo $var2
+
+
+if [ $rep1 -eq 0 ] ; then
 
 
 
