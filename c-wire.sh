@@ -37,7 +37,7 @@ testArg(){
     
         fi
 
-        if ( ( [ "$2" == "hva" ] || [ "$2" == "hvb" ] ) && ( [ "$3" == "all" ] || [ "$3" == "all" ] ) ) ; then
+        if ( ( [ "$2" == "hva" ] || [ "$2" == "hvb" ] ) && ( [ "$3" == "all" ] || [ "$3" == "indiv" ] ) ) ; then
 
             echo "problem with the type hvb/hva"
 
@@ -84,7 +84,57 @@ testArg(){
 
 }
 
+hvaComp(){
 
+    if [ -f /tmp/tmp.txt ] ; then
+
+        $(rm /tmp/tmp.txt)
+    
+    fi
+
+    for ligne in $(<$1)
+    do 
+
+        hva=$(echo $ligne | cut -d';' -f3)
+        cons=$(echo $ligne | cut -d';' -f7)
+        nolv=$(echo $ligne | cut -d';' -f4)
+        conso=$(echo $ligne | cut -d';' -f5)
+        comp=$(echo $ligne | cut -d';' -f8)
+
+        if [ "$hva" != "-" ] && [ "$cons" != "-" ] && [ "$nolv" == "-" ] ; then
+
+            $(echo $ligne >> tmp/tmp.txt)
+
+        fi
+
+        if [ "$hva" != "-" ] && [ "$conso" != "-" ] && [ "$nolv" == "-" ] && [ "$comp" != "-" ] ; then
+
+            $(echo $ligne >> tmp/tmp.txt)
+
+        fi
+
+
+    done
+
+    return 0
+
+}
+
+hvbComp(){
+    return 0
+}
+
+lvComp(){
+    return 0
+}
+
+lvIndiv(){
+    return 0
+}
+
+lvAll(){
+    return 0
+}
 
 
 
@@ -99,24 +149,11 @@ if [ $rep1 -eq 0 ] ; then
 
     echo $test
 
+    if [ "$2" == "hva" ] ; then
 
+        $(hvaComp $1)
 
-
-    for ligne in $(<$1)
-    do 
-
-        #echo $ligne
-        hva=$(echo $ligne | cut -d';' -f3)
-        cons=$(echo $ligne | cut -d';' -f7)
-        nolv=$(echo $ligne | cut -d';' -f4)
-        #echo $aa
-        if [ "$hva" != "-" ] && [ "$cons" != "-" ] && [ "$nolv" == "-" ] ; then
-
-            echo $ligne
-            echo
-
-        fi
-    done
+    fi
 
     c=`cut -d';' -f 1- $1`
 
