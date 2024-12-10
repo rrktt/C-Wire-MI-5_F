@@ -17,12 +17,11 @@ testArg(){
         comp2='ASCII text'
 
         fichier=$(echo $1 | grep "c-wire_v00.dat")
-        ret=$?
 
 
 
 
-        if [ ! -f $1 ] || [ "$comp1" != "$comp2" ] || [ ! $ret ] ; then
+        if [ ! -f $1 ] || [ "$fichier" != "c-wire_v00.dat" ] ; then
 
             echo "problem with c-wire.dat"
 
@@ -56,18 +55,22 @@ testArg(){
 
         if [ $# -eq 4 ] ; then
 
-            var2=`echo $4 | cut -c1-`
+            var2=`echo $4 | cut -c 1-`
 
-            for ch in $var2
-            do
+            for (( i = 1 ; i <= (${#4}) ; i++ )) ; do
 
-                if [ "$(echo $ch | grep '*[0-9]')" != "ch" ] ; then
+                var2=`echo $4 | cut -c$i`
+                isnum=$(echo "$var2" | grep "[0-9]")
+
+
+                if [ "$isnum" != "$var2" ] ; then
 
                     echo "problem with cental"
 
                     return 1
 
                 fi
+
 
             done
 
@@ -88,19 +91,13 @@ testArg(){
 test=`testArg $@`
 rep1=$?
 
-var="12345678AZERTYU"
-var2=`echo $var | cut -c1-`
-for v in $var2
-do
 
-    echo $v
-    echo
-done
 
-echo $var2
 
 
 if [ $rep1 -eq 0 ] ; then
+
+    echo $test
 
 
 
@@ -117,7 +114,6 @@ if [ $rep1 -eq 0 ] ; then
 
             echo $ligne
             echo
-            #echo
 
         fi
     done
