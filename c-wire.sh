@@ -1,8 +1,6 @@
 #!/bin/bash 
 
-oldIFS=$IFS
 
-IFS=$'\n'
 
 
 testArg(){
@@ -13,15 +11,8 @@ testArg(){
         return 1
     
     else
-        comp1="$(file -b $1)"
-        comp2='ASCII text'
 
-        fichier=$(echo $1 | grep "c-wire_v00.dat")
-
-
-
-
-        if [ ! -f $1 ] || [ "$fichier" != "c-wire_v00.dat" ] ; then
+        if [ ! -f $1 ] || [ "$1" != "c-wire_v00.dat" ] ; then
 
             echo "problem with c-wire.dat"
 
@@ -86,86 +77,163 @@ testArg(){
 
 hvaComp(){
 
-    if [ -f /tmp/tmp.txt ] ; then
+    #if [ -f tmp/tmp.txt ] ; then
 
-        $(rm /tmp/tmp.txt)
+        #$(rm tmp/tmp.txt)
     
-    fi
+    #fi
+    
+    #$(awk -F';' '$3 == "-" && $4 == "-" && $2 == "-" {print $0}' $1 > tmp/tmp.txt)
+    awk -F';' '$3 != "-" && $4 == "-" {print $0}' $1 > tmp/tmp.txt
+    cut -d';' -f3,7,8 tmp/tmp.txt > tmp/tmpa.txt
 
-    for ligne in $(<$1)
-    do 
+    sed 's/-/0/g' tmp/tmpa.txt > tmp/tmpb.txt
 
-        hva=$(echo $ligne | cut -d';' -f3)
-        cons=$(echo $ligne | cut -d';' -f7)
-        nolv=$(echo $ligne | cut -d';' -f4)
-        conso=$(echo $ligne | cut -d';' -f5)
-        comp=$(echo $ligne | cut -d';' -f8)
+    sed 's/;/ /g' tmp/tmpb.txt > tmp/tmpc.txt
 
-        if [ "$hva" != "-" ] && [ "$cons" != "-" ] && [ "$nolv" == "-" ] ; then
-
-            $(echo $ligne >> tmp/tmp.txt)
-
-        fi
-
-        if [ "$hva" != "-" ] && [ "$conso" != "-" ] && [ "$nolv" == "-" ] && [ "$comp" != "-" ] ; then
-
-            $(echo $ligne >> tmp/tmp.txt)
-
-        fi
-
-
-    done
-
-    return 0
 
 }
 
 hvbComp(){
-    return 0
+
+    #if [ -f tmp/tmp.txt ] ; then
+
+        #$(rm tmp/tmp.txt)
+    
+    #fi
+
+    #$(awk -F';' '$3 == "-" && $4 == "-" && $2 == "-" {print $0}' $1 > tmp/tmp.txt)
+    awk -F';' '$2 != "-" && $3 == "-" {print $0}' $1 > tmp/tmp.txt
+    cut -d';' -f2,7,8 tmp/tmp.txt > tmp/tmpa.txt
+
+    sed 's/-/0/g' tmp/tmpa.txt > tmp/tmpb.txt
+
+    sed 's/;/ /g' tmp/tmpb.txt > tmp/tmpc.txt
+
+
 }
 
 lvComp(){
-    return 0
+
+    #if [ -f tmp/tmp.txt ] ; then
+
+        #$(rm tmp/tmp.txt)
+    
+    #fi
+
+    #$(awk -F';' '$3 == "-" && $4 == "-" && $2 == "-" {print $0}' $1 > tmp/tmp.txt)
+    awk -F';' '$7 != "-" && $4 != "-" && $2 == "-" {print $0}' $1 > tmp/tmp.txt
+    awk -F';' '$5 != "-" && $4 != "-" && $2 == "-" {print $0}' $1 >> tmp/tmp.txt
+    cut -d';' -f4,7,8 tmp/tmp.txt > tmp/tmpa.txt
+
+    sed 's/-/0/g' tmp/tmpa.txt > tmp/tmpb.txt
+
+    sed 's/;/ /g' tmp/tmpb.txt > tmp/tmpc.txt
+
+    #sed -ri 's/^[[:blank:]]*'"-"'=[^#]*(#?.*)/'"-=0"' \1/' tmp/tmpa.txt
+
+
+
+
 }
 
 lvIndiv(){
-    return 0
+
+    #if [ -f tmp/tmp.txt ] ; then
+
+        #$(rm tmp/tmp.txt)
+    
+    #fi
+
+    #$(awk -F';' '$3 == "-" && $4 == "-" && $2 == "-" {print $0}' $1 > tmp/tmp.txt)
+    awk -F';' '$7 != "-" && $4 != "-" && $2 == "-" {print $0}' $1 > tmp/tmp.txt
+    awk -F';' '$6 != "-" && $4 != "-" && $2 == "-" {print $0}' $1 >> tmp/tmp.txt
+    cut -d';' -f4,6,8 tmp/tmp.txt > tmp/tmpa.txt
+
+    sed 's/-/0/g' tmp/tmpa.txt > tmp/tmpb.txt
+
+    sed 's/;/ /g' tmp/tmpb.txt > tmp/tmpc.txt
+
+
 }
 
 lvAll(){
+
+    #if [ -f tmp/tmp.txt ] ; then
+
+        #$(rm tmp/tmp.txt)
+    
+    #fi
+
+
+
+    #$(awk -F';' '$3 == "-" && $4 == "-" && $2 == "-" {print $0}' $1 > tmp/tmp.txt)
+    #$(awk -F';' '$4 != "-" && $2 == "-" {print $0}' $1 >> tmp/tmp.txt)
+    #$(cut -d';' -f4,6,8 tmp/tmp.txt > tmp/tmpc.txt)
+
+    return 0
+}
+
+
+chooseCentral(){
+
+    if [ "$2" == "hvb" ] ; then
+
+        hvbComp $1
+    
+
+    elif [ "$2" == "hva" ] ; then
+
+        hvaComp $1
+
+    elif [ "$2" == "lv" ] && [ "$3" == "comp" ] ; then
+
+        lvComp $1
+
+    elif [ "$2" == "lv" ] && [ "$3" == "indiv" ] ; then
+
+        lvIndiv $1
+
+    else 
+
+        lvAll $1
+
+    fi
+
+
     return 0
 }
 
 
 
+oldIFS=$IFS
+
+IFS=$'\n'
+
 test=`testArg $@`
 rep1=$?
-
-
-
 
 
 if [ $rep1 -eq 0 ] ; then
 
     echo $test
 
-    if [ "$2" == "hva" ] ; then
 
-        $(hvaComp $1)
+    chooseCentral $@
 
-    fi
+    gcc -o ex codeC/main.c
+    #./ex
 
-    c=`cut -d';' -f 1- $1`
 
-    #echo $c
 
-    #`cut -d';' -f 1 $1  > "tem.csv"`
 
 
 else 
     echo $test
-    echo "exiting"    
+    echo "exiting..."    
 fi
+
+#rm -rf tmp/*
 
 
 IFS=$oldIFS
