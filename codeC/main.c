@@ -284,17 +284,17 @@ void browsefile(){
         if (testcentral != EOF){
 
         
-            printf("%d\n\n", central);
+            //printf("%d\n\n", central);
 
 
 
             testcapa = fscanf(file, "%ld", &capa);
-            printf("%ld\n", capa);
+            //printf("%ld\n", capa);
 
 
 
             testgiv = fscanf(file, "%ld", &giv);
-            printf("%ld\n", giv);
+            //printf("%ld\n", giv);
 
 
             nv = searchAvl(a, central);
@@ -302,7 +302,6 @@ void browsefile(){
             if(nv == NULL){
 
                 s = createStation(central, capa, giv);
-                printf("a\n");
                 a = insertAvl(a, s, &h);
                 
             }
