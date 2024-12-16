@@ -20,7 +20,7 @@ testArg(){
     
     else
 
-        if [ ! -f $1 ] || [ "$1" != "c-wire_v25.dat" ] ; then
+        if [ ! -f $1 ] || [ "$1" != "c-wire_v00.dat" ] ; then
 
             echo "/ ! \ problem with c-wire.dat"
 
@@ -373,8 +373,14 @@ if [ $rep1 -eq 0 ] ; then
 
     chooseCentral $@
 
-    gcc -o ex codeC/main.c
-    ./ex
+    path=$(pwd)
+
+    path1="$path/tmp/tmpc.txt"
+    path2="$path/test.csv"
+
+
+    exex=$(make -C codeC/)
+    ./codeC/exe $path1 $path2
 
     
 
@@ -391,6 +397,7 @@ if [ $rep1 -eq 0 ] ; then
     fi
 
     
+    sup=$(make -C codeC/ clean)
 
 
 
@@ -400,7 +407,7 @@ else
 
     echo $test
 
-    echo "/ ! \ how to use c-wire.sh :"
+    echo "/ ! \ how to use c-wire.sh : \n"
 
     echo "First argument is the .dat file"
 
@@ -412,7 +419,7 @@ else
        
 fi
 
-rm -rf tmp/*
+#rm -rf tmp/*
 
 
 IFS=$oldIFS
