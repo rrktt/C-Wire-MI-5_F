@@ -20,7 +20,10 @@ testArg(){
     
     else
 
-        if [ ! -f $1 ] || [ "$1" != "c-wire_v00.dat" ] ; then
+        data=$(echo $1 | grep "c-wire_v00.dat")
+        ans=$?
+
+        if [ ! -f $1 ] || [ $ans -ne 0 ] ; then
 
             echo "/ ! \ problem with c-wire.dat"
 
@@ -101,23 +104,19 @@ hvaComp(){
 
     if [ $# -ne 4 ] ; then
 
-        awk -F';' '$3 != "-" && $4 == "-" {print $3" "$7" "$8}' $1 > tmp/tmp.txt
-        #cut -d';' -f3,7,8 tmp/tmp.txt > tmp/tmpa.txt
+        awk -F';' '$3 != "-" && $4 == "-" {print $3" "$7" "$8}' input/data.dat > tmp/tmp.txt
 
         sed 's/-/0/g' tmp/tmp.txt > tmp/tmpc.txt
 
-        #sed 's/;/ /g' tmp/tmpb.txt > tmp/tmpc.txt
     
     else 
 
         central=$4
 
-        awk -F';' -v cent="$central" '$3 != "-" && $4 == "-" && $1 == cent {print $3" "$7" "$8}' $1 > tmp/tmp.txt
-        #cut -d';' -f3,7,8 tmp/tmp.txt > tmp/tmpa.txt
+        awk -F';' -v cent="$central" '$3 != "-" && $4 == "-" && $1 == cent {print $3" "$7" "$8}' input/data.dat > tmp/tmp.txt
 
         sed 's/-/0/g' tmp/tmp.txt > tmp/tmpc.txt
 
-        #sed 's/;/ /g' tmp/tmpb.txt > tmp/tmpc.txt
 
     fi
 
@@ -130,24 +129,19 @@ hvbComp(){
 
     if [ $# -ne 4 ] ; then
 
-        #$(awk -F';' '$3 == "-" && $4 == "-" && $2 == "-" {print $0}' $1 > tmp/tmp.txt)
-        awk -F';' '$2 != "-" && $3 == "-" {print $2" "$7" "$8}' $1 > tmp/tmp.txt
-        #cut -d';' -f2,7,8 tmp/tmp.txt > tmp/tmpa.txt
+        awk -F';' '$2 != "-" && $3 == "-" {print $2" "$7" "$8}' input/data.dat > tmp/tmp.txt
 
         sed 's/-/0/g' tmp/tmp.txt > tmp/tmpc.txt
 
-        #sed 's/;/ /g' tmp/tmpb.txt > tmp/tmpc.txt
     
     else
 
         central=$4
 
-        awk -F';' -v cent="$central" '$2 != "-" && $3 == "-" && $1 == cent {print $2" "$7" "$8}' $1 > tmp/tmp.txt
-        #cut -d';' -f2,7,8 tmp/tmp.txt > tmp/tmpa.txt
+        awk -F';' -v cent="$central" '$2 != "-" && $3 == "-" && $1 == cent {print $2" "$7" "$8}' input/data.dat > tmp/tmp.txt
 
         sed 's/-/0/g' tmp/tmp.txt > tmp/tmpc.txt
 
-        #sed 's/;/ /g' tmp/tmpb.txt > tmp/tmpc.txt
 
     fi
 
@@ -160,25 +154,19 @@ lvComp(){
 
     if [ $# -ne 4 ] ; then
 
-        #$(awk -F';' '$3 == "-" && $4 == "-" && $2 == "-" {print $0}' $1 > tmp/tmp.txt)
-        #awk -F';' '$7 != "-" && $4 != "-" && $2 == "-" {print $0}' $1 > tmp/tmp.txt
-        awk -F';' '$6 == "-" && $4 != "-" && $2 == "-" {print $4" "$7" "$8}' $1 > tmp/tmp.txt
-        #cut -d';' -f4,7,8 tmp/tmp.txt > tmp/tmpa.txt
+        awk -F';' '$6 == "-" && $4 != "-" && $2 == "-" {print $4" "$7" "$8}' input/data.dat > tmp/tmp.txt
 
         sed 's/-/0/g' tmp/tmp.txt > tmp/tmpc.txt
 
-        #sed 's/;/ /g' tmp/tmpb.txt > tmp/tmpc.txt
 
     else
 
         central=$4
 
-        awk -F';' -v cent="$central" '$6 == "-" && $4 != "-" && $2 == "-" && $1 == cent {print $4" "$7" "$8}' $1 > tmp/tmp.txt
-        #cut -d';' -f4,7,8 tmp/tmp.txt > tmp/tmpa.txt
+        awk -F';' -v cent="$central" '$6 == "-" && $4 != "-" && $2 == "-" && $1 == cent {print $4" "$7" "$8}' input/data.dat > tmp/tmp.txt
 
         sed 's/-/0/g' tmp/tmp.txt > tmp/tmpc.txt
 
-        #sed 's/;/ /g' tmp/tmpb.txt > tmp/tmpc.txt
 
     fi
 
@@ -193,26 +181,17 @@ lvIndiv(){
 
     if [ $# -ne 4 ] ; then
 
-        #$(awk -F';' '$3 == "-" && $4 == "-" && $2 == "-" {print $0}' $1 > tmp/tmp.txt)
-        #awk -F';' '$7 != "-" && $4 != "-" && $2 == "-" {print $0}' $1 > tmp/tmp.txt
-
-        awk -F';' '$5 == "-" && $4 != "-" && $2 == "-" {print $4" "$7" "$8}' $1 > tmp/tmp.txt
-        #cut -d';' -f4,7,8 tmp/tmp.txt > tmp/tmpa.txt
+        awk -F';' '$5 == "-" && $4 != "-" && $2 == "-" {print $4" "$7" "$8}' input/data.dat > tmp/tmp.txt
 
         sed 's/-/0/g' tmp/tmp.txt > tmp/tmpc.txt
-
-        #sed 's/;/ /g' tmp/tmpb.txt > tmp/tmpc.txt
 
     else
 
         central=$4
 
-        awk -F';' -v cent="$central" '$5 == "-" && $4 != "-" && $2 == "-" && $1 == cent {print $4" "$7" "$8}' $1 > tmp/tmp.txt
-        #cut -d';' -f4,7,8 tmp/tmp.txt > tmp/tmpa.txt
+        awk -F';' -v cent="$central" '$5 == "-" && $4 != "-" && $2 == "-" && $1 == cent {print $4" "$7" "$8}' input/data.dat > tmp/tmp.txt
 
         sed 's/-/0/g' tmp/tmp.txt > tmp/tmpc.txt
-
-        #sed 's/;/ /g' tmp/tmpb.txt > tmp/tmpc.txt
 
     fi
 
@@ -223,26 +202,20 @@ lvAll(){
 
     if [ $# -ne 4 ] ; then
 
-        #$(awk -F';' '$3 == "-" && $4 == "-" && $2 == "-" {print $0}' $1 > tmp/tmp.txt)
-        #$(awk -F';' '$4 != "-" && $2 == "-" {print $0}' $1 >> tmp/tmp.txt)
 
-        awk -F';' '$4 != "-" && $2 == "-" {print $4" "$7" "$8}' $1 > tmp/tmp.txt
-        #cut -d';' -f4,7,8 tmp/tmp.txt > tmp/tmpa.txt
+        awk -F';' '$4 != "-" && $2 == "-" {print $4" "$7" "$8}' input/data.dat > tmp/tmp.txt
 
         sed 's/-/0/g' tmp/tmp.txt > tmp/tmpc.txt
 
-        #sed 's/;/ /g' tmp/tmpb.txt > tmp/tmpc.txt
     
     else 
 
         central=$4
 
-        awk -F';' -v cent="$central" '$4 != "-" && $2 == "-" && $1 == cent {print $3" "$7" "$8}' $1 > tmp/tmp.txt
-        #cut -d';' -f4,7,8 tmp/tmp.txt > tmp/tmpa.txt
+        awk -F';' -v cent="$central" '$4 != "-" && $2 == "-" && $1 == cent {print $4" "$7" "$8}' input/data.dat > tmp/tmp.txt
 
         sed 's/-/0/g' tmp/tmp.txt > tmp/tmpc.txt
 
-        #sed 's/;/ /g' tmp/tmpb.txt > tmp/tmpc.txt
 
     fi
 
@@ -360,15 +333,27 @@ rep1=$?
 
 if [ $rep1 -eq 0 ] ; then
 
-    cp $1 input/
 
-    if [ -e tests/ ] && [ -e input/ ] && [ -e graphs/ ] ; then
+
+    if [ -e tmp/ ] ; then
 
         rm -rf tmp/*
-        rm -rf input/*
-        rm -rf graphs/*
+
+    else 
+
+        mkdir tmp/
 
     fi
+
+    if [ ! -e graphs/ ] ; then
+
+        mkdir graphs/
+
+    fi
+
+    
+    
+    cp $1 input/data.dat
 
 
     chooseCentral $@
@@ -407,7 +392,7 @@ else
 
     echo $test
 
-    echo "/ ! \ how to use c-wire.sh : \n"
+    echo "/ ! \ how to use c-wire.sh :"
 
     echo "First argument is the .dat file"
 
