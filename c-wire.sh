@@ -254,7 +254,7 @@ chooseCentral(){
 
 createGraph(){
 
-    if [ $# -eq 4 ] ; then
+    if [ $# -eq 5 ] ; then
 
         title="$2, $3 central : $4"
         xlabel="$2 station"
@@ -286,7 +286,7 @@ EOF
         title="$2 $3"
         xlabel="Central"
         ylabel="Energy (kWh)"
-        output="graphs/graph($5).png"
+        output="graphs/graph($4).png"
 
 
         gnuplot << EOF
