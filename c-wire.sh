@@ -20,7 +20,7 @@ testArg(){
     
     else
 
-        data=$(echo $1 | grep "c-wire_v00.dat")
+        data=$(echo $1 | grep ".dat")
         ans=$?
 
         if [ ! -f $1 ] || [ $ans -ne 0 ] ; then
@@ -259,7 +259,7 @@ createGraph(){
         title="$2, $3 central : $4"
         xlabel="$2 station"
         ylabel="Energy (kWh)"
-        output="graphs/graph.png"
+        output="graphs/graph($5).png"
 
         gnuplot << EOF
 
@@ -286,7 +286,7 @@ EOF
         title="$2 $3"
         xlabel="Central"
         ylabel="Energy (kWh)"
-        output="graphs/graph.png"
+        output="graphs/graph($5).png"
 
 
         gnuplot << EOF
@@ -315,6 +315,33 @@ EOF
 
 
 
+
+ifLvAll(){
+
+    if [ "$3" == "lv" ] && [ "$4" == "all" ] ; then
+
+        nbligne=$(wc -l $1 | sed "s/^\ *//g" | cut -d " " -f 1)
+
+        if [ $nbligne -gt 21 ] ; then
+
+            if [ $# -ne 5 ] ; then
+
+                head -n 11 $1 > tests/"$3"_"$4"minmax.csv
+                tail $1 >> tests/"$3"_"$4"minmax.csv
+
+
+            else
+
+                head -n 11 $1 > tests/"$3"_"$4"_"$5"minmax.csv
+                tail $1 >> tests/"$3"_"$4"_"$5"minmax.csv
+
+            fi
+
+        fi
+
+    fi
+
+}
 
 
 
@@ -348,15 +375,29 @@ if [ $rep1 -eq 0 ] ; then
     if [ ! -e graphs/ ] ; then
 
         mkdir graphs/
+    
 
     fi
 
-    
+    getTime=$(date +%s)
     
     cp $1 input/data.dat
 
+    deltaT=$(( $(date +%s) - getTime ))
+
+    echo "time to cp the input data file : $deltaT"
+
+
+
+    getTime=$(date +%s)
 
     chooseCentral $@
+
+    deltaT=$(( $(date +%s) - getTime ))
+
+    echo "time to create tmp files : $deltaT"
+
+
 
     path=$(pwd)
 
@@ -367,19 +408,46 @@ if [ $rep1 -eq 0 ] ; then
     exex=$(make -C codeC/)
     ./codeC/exe $path1 $path2
 
+
+
     
+    getTime=$(date +%s)
 
     if [ $# -ne 4 ] ; then
         echo $2 station:Capacity:Consuption > tests/"$2"_"$3".csv
-        cat test.csv >> tests/"$2"_"$3".csv
+        sort -t ':' -k 3 test.csv >> tests/"$2"_"$3".csv
+
+        ifLvAll tests/"$2"_"$3".csv $@
+
+        #cat test.csv >> tests/"$2"_"$3".csv
         rm -f test.csv
-        createGraph tests/"$2"_"$3".csv $2 $3
+        createGraph tests/"$2"_"$3".csv $2 $3 def
+        
+        if [ -e tests/"$2"_"$3"minmax.csv ] ; then
+            createGraph tests/"$2"_"$3"minmax.csv $2 $3 minmax
+        fi
+
+
     else
         echo $2 station:Capacity:Consuption > tests/"$2"_"$3"_"$4".csv
-        cat test.csv >> tests/"$2"_"$3"_"$4".csv
+        sort -t ':' -k 3 test.csv >> tests/"$2"_"$3"_"$4".csv
+
+        ifLvAll tests/"$2"_"$3"_"$4".csv $@
+
+        #cat test.csv >> tests/"$2"_"$3"_"$4".csv
         rm -f test.csv
-        createGraph tests/"$2"_"$3"_"$4".csv $2 $3 $4
+        createGraph tests/"$2"_"$3"_"$4".csv $2 $3 $4 def
+
+        if [ -e tests/"$2"_"$3"_"$4"minmax.csv ] && [ "$2" == "lv" ] && [ "$3" == "all" ] ; then
+            createGraph tests/"$2"_"$3"_"$4"minmax.csv $2 $3 $4 minmax
+        fi
     fi
+
+    deltaT=$(( $(date +%s) - getTime ))
+
+    echo "time to create graph : $deltaT"
+
+    
 
     
     sup=$(make -C codeC/ clean)
