@@ -8,14 +8,17 @@
 
 
 typedef struct Station{
-    int type;
-    int identifiant;
-    int centrale_parente;
-    int station_hvb_parente;
-    int station_hva_parente;
-    int capacite;
-    int charge;
-    int consomateurs_total; 
+   int power_plant;
+   int hvb_station;
+   int hva_station;
+   int lv_station;
+   int company;
+   int individual;
+   int capacity; 
+   int load;
+   int id; 
+   int type;
+   int consumers;
 
 }Station;
 

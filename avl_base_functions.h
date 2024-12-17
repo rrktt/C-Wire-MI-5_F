@@ -1,32 +1,22 @@
 
-#ifndef FCTS_AVL_H
-    #define FCTS_AVL_H
-#endif
-
-typedef struct Station{
-    int type;
-    int identifiant;
-    int centrale_parente;
-    int station_hvb_parente;
-    int station_hva_parente;
-    int capacite;
-    int charge;
-    int consomateurs_total; 
-
-}Station;
+#include<stdio.h>
+#include<stdlib.h>
+#include"main.h"
 
 
 
-struct Arbre{
-    struct Arbre* fg;
-    struct Arbre* fd;   
-    Station s; 
-};
 
-typedef struct Arbre Arbre;
-typedef Arbre* pArbre;
-
-
-pArbre creationAvl(int e);
-int recherche(pArbre a,int e);
+pAvl AvlCreation(Station s);
+int leftSonExists(pAvl a);
+int rightSonExists(pAvl a);
+pAvl rightRotation(pAvl a);
+pAvl leftRotation(pAvl a);
+pAvl rightDoubleRotation(pAvl a);
+pAvl leftDoubleRotation(pAvl a);
+pAvl balance(pAvl a);
+pAvl insertion(pAvl a,Station s);
+pAvl delMinAvl(pAvl a,int* h,Station* pe );
+pAvl delete(pAvl a,Station e,int*h);
+int search(pAvl a,int e);
+void delete_all(pAvl a);
 
