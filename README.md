@@ -21,6 +21,6 @@ Final step press enter and if all the elements have been put in the right way th
 If you want help you can put "-h" as an argument to have the details of the arguments to place.
 
 EXEMPLE: - "bash c-wire.sh /Users/"USERNAME"/Desktop/c-wire_v25.dat hva comp"
-         - "bash c-wire.sh /Users/"USERNAME"/Desktop/c-wire_v25.dat lv all 1"
-         - "bash c-wire.sh -h"
-         - "bash c-wire.sh /Users/"USERNAME"/Desktop/c-wire_v25.dat -h lv comp"
+        - "bash c-wire.sh /Users/"USERNAME"/Desktop/c-wire_v25.dat lv all 1"
+        - "bash c-wire.sh -h"
+        - "bash c-wire.sh /Users/"USERNAME"/Desktop/c-wire_v25.dat -h lv comp"
