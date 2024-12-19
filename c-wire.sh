@@ -3,9 +3,9 @@
 
 
 
-testArg(){
+testArg(){ #fonction to test all arguments
 
-    for elm in $@ ; do
+    for elm in $@ ; do #test -h option
 
         if [ "$elm" == "-h" ] ; then
             return 1
@@ -13,7 +13,7 @@ testArg(){
 
     done
 
-    if (( $# <= 2 )) || (( $# >= 5 )) ; then
+    if (( $# <= 2 )) || (( $# >= 5 )) ; then #to mutch argument
 
         echo "/ ! \ argument problem / give more arguments or supp arguments"
         return 1
@@ -23,15 +23,15 @@ testArg(){
         data=$(echo $1 | grep ".dat")
         ans=$?
 
-        if [ ! -f $1 ] || [ $ans -ne 0 ] ; then
+        if [ ! -f $1 ] || [ $ans -ne 0 ] ; then #verification of the data file
 
-            echo "/ ! \ problem with c-wire.dat"
+            echo "/ ! \ problem with .dat file"
 
             return 1
 
         fi
 
-        if [ "$2" != "hva" ] && [ "$2" != "hvb" ] && [ "$2" != "lv" ] ; then
+        if [ "$2" != "hva" ] && [ "$2" != "hvb" ] && [ "$2" != "lv" ] ; then #verification of the second argument
 
             echo "/ ! \ problem with station's type"
 
@@ -39,7 +39,7 @@ testArg(){
     
         fi
 
-        if ( ( [ "$2" == "hva" ] || [ "$2" == "hvb" ] ) && ( [ "$3" == "all" ] || [ "$3" == "indiv" ] ) ) ; then
+        if ( ( [ "$2" == "hva" ] || [ "$2" == "hvb" ] ) && ( [ "$3" == "all" ] || [ "$3" == "indiv" ] ) ) ; then #verification of the consisrency
 
             echo "/ ! \ problem with the type hvb/hva"
 
@@ -47,7 +47,7 @@ testArg(){
 
         fi
 
-        if [ "$3" != "comp" ] && [ "$3" != "indiv" ] && [ "$3" != "all" ] ; then
+        if [ "$3" != "comp" ] && [ "$3" != "indiv" ] && [ "$3" != "all" ] ; then #verification of the third argument
 
             echo "/ ! \ problem with the type"
 
@@ -55,7 +55,7 @@ testArg(){
 
         fi
 
-        if [ $# -eq 4 ] ; then
+        if [ $# -eq 4 ] ; then #if a power plant is called
 
             var2=`echo $4 | cut -c 1-`
 
@@ -65,7 +65,7 @@ testArg(){
                 isnum=$(echo "$var2" | grep "[0-9]")
 
 
-                if [ "$isnum" != "$var2" ] ; then
+                if [ "$isnum" != "$var2" ] ; then #if the central argument is not a number
 
                     echo "/ ! \ entrer a correct number for the central"
 
@@ -79,7 +79,7 @@ testArg(){
             testc=`cut -d';' -f1 "$1" | grep "$4"`
             testcentral=$?
 
-            if [ $testcentral -eq 2 ] || [ $testcentral -eq 1 ] ; then
+            if [ $testcentral -eq 2 ] || [ $testcentral -eq 1 ] ; then #is the power plant is in the file
 
                 echo "/ ! \ no central $4 found"
 
@@ -102,11 +102,11 @@ testArg(){
 hvaComp(){
 
 
-    if [ $# -ne 4 ] ; then
+    if [ $# -ne 4 ] ; then 
 
-        awk -F';' '$3 != "-" && $4 == "-" {print $3" "$7" "$8}' input/data.dat > tmp/tmp.txt
+        awk -F';' '$3 != "-" && $4 == "-" {print $3" "$7" "$8}' input/data.dat > tmp/tmp.txt #take the important information for hva stations
 
-        sed 's/-/0/g' tmp/tmp.txt > tmp/tmpc.txt
+        sed 's/-/0/g' tmp/tmp.txt > tmp/tmpc.txt #replace "-" -> "0" 
 
     
     else 
@@ -129,9 +129,9 @@ hvbComp(){
 
     if [ $# -ne 4 ] ; then
 
-        awk -F';' '$2 != "-" && $3 == "-" {print $2" "$7" "$8}' input/data.dat > tmp/tmp.txt
+        awk -F';' '$2 != "-" && $3 == "-" {print $2" "$7" "$8}' input/data.dat > tmp/tmp.txt #take the important information for hvb stations
 
-        sed 's/-/0/g' tmp/tmp.txt > tmp/tmpc.txt
+        sed 's/-/0/g' tmp/tmp.txt > tmp/tmpc.txt #replace "-" -> "0" 
 
     
     else
@@ -154,9 +154,9 @@ lvComp(){
 
     if [ $# -ne 4 ] ; then
 
-        awk -F';' '$6 == "-" && $4 != "-" && $2 == "-" {print $4" "$7" "$8}' input/data.dat > tmp/tmp.txt
+        awk -F';' '$6 == "-" && $4 != "-" && $2 == "-" {print $4" "$7" "$8}' input/data.dat > tmp/tmp.txt #take the important information for lv stations
 
-        sed 's/-/0/g' tmp/tmp.txt > tmp/tmpc.txt
+        sed 's/-/0/g' tmp/tmp.txt > tmp/tmpc.txt #replace "-" -> "0" 
 
 
     else
@@ -181,9 +181,9 @@ lvIndiv(){
 
     if [ $# -ne 4 ] ; then
 
-        awk -F';' '$5 == "-" && $4 != "-" && $2 == "-" {print $4" "$7" "$8}' input/data.dat > tmp/tmp.txt
+        awk -F';' '$5 == "-" && $4 != "-" && $2 == "-" {print $4" "$7" "$8}' input/data.dat > tmp/tmp.txt #take the important information for lv stations
 
-        sed 's/-/0/g' tmp/tmp.txt > tmp/tmpc.txt
+        sed 's/-/0/g' tmp/tmp.txt > tmp/tmpc.txt #replace "-" -> "0" 
 
     else
 
@@ -203,9 +203,9 @@ lvAll(){
     if [ $# -ne 4 ] ; then
 
 
-        awk -F';' '$4 != "-" && $2 == "-" {print $4" "$7" "$8}' input/data.dat > tmp/tmp.txt
+        awk -F';' '$4 != "-" && $2 == "-" {print $4" "$7" "$8}' input/data.dat > tmp/tmp.txt #take the important information for lv stations
 
-        sed 's/-/0/g' tmp/tmp.txt > tmp/tmpc.txt
+        sed 's/-/0/g' tmp/tmp.txt > tmp/tmpc.txt #replace "-" -> "0" 
 
     
     else 
@@ -223,7 +223,7 @@ lvAll(){
 }
 
 
-chooseCentral(){
+chooseCentral(){ #choose the right fonction to summon based on the gived argument
 
     if [ "$2" == "hvb" ] ; then
 
@@ -252,7 +252,7 @@ chooseCentral(){
     return 0
 }
 
-createGraph(){
+createGraph(){ #Creation of the histogram with gnuplot
 
     if [ $# -eq 5 ] ; then
 
@@ -316,15 +316,15 @@ EOF
 
 
 
-ifLvAll(){
+ifLvAll(){ #fonction to create minMax for lv all
 
     if [ "$3" == "lv" ] && [ "$4" == "all" ] ; then
 
-        nbligne=$(wc -l $1 | sed "s/^\ *//g" | cut -d " " -f 1)
+        nbligne=$(wc -l $1 | sed "s/^\ *//g" | cut -d " " -f 1) #get the number of line
 
-        if [ $nbligne -gt 21 ] ; then
+        if [ $nbligne -gt 21 ] ; then #if line are greater than 21
 
-            if [ $# -ne 5 ] ; then
+            if [ $# -ne 5 ] ; then 
 
                 head -n 11 $1 > tests/"$3"_"$4"minmax.csv
                 tail $1 >> tests/"$3"_"$4"minmax.csv
@@ -353,37 +353,37 @@ oldIFS=$IFS
 
 IFS=$'\n'
 
-test=`testArg $@`
+test=`testArg $@` #start with testing the arguments
 rep1=$?
 
 
 
-if [ $rep1 -eq 0 ] ; then
+if [ $rep1 -eq 0 ] ; then #if arguments are correct
 
 
 
-    if [ -e tmp/ ] ; then
+    if [ -e tmp/ ] ; then #test the presence of tmp directory
 
-        rm -rf tmp/*
+        rm -rf tmp/* #erase file in the directory
 
     else 
 
-        mkdir tmp/
+        mkdir tmp/ #create tmp directory
 
     fi
 
-    if [ ! -e graphs/ ] ; then
+    if [ ! -e graphs/ ] ; then #test the presence of graphs directory
 
-        mkdir graphs/
+        mkdir graphs/ #create graphs directory
     
 
     fi
 
-    getTime=$(date +%s)
+    getTime=$(date +%s) #get the actual time based on the timestamp
     
-    cp $1 input/data.dat
+    cp $1 input/data.dat #copy the data file into the input directory
 
-    deltaT=$(( $(date +%s) - getTime ))
+    deltaT=$(( $(date +%s) - getTime )) #get the time to do the operation
 
     echo "time to cp the input data file : $deltaT"
 
@@ -391,7 +391,7 @@ if [ $rep1 -eq 0 ] ; then
 
     getTime=$(date +%s)
 
-    chooseCentral $@
+    chooseCentral $@ #create the sorted tmp file
 
     deltaT=$(( $(date +%s) - getTime ))
 
@@ -399,14 +399,14 @@ if [ $rep1 -eq 0 ] ; then
 
 
 
-    path=$(pwd)
+    path=$(pwd) #get the absolute path to this directory
 
     path1="$path/tmp/tmpc.txt"
     path2="$path/test.csv"
 
 
-    exex=$(make -C codeC/)
-    ./codeC/exe $path1 $path2
+    exex=$(make -C codeC/) #compilation
+    ./codeC/exe $path1 $path2 #run the c program
 
 
 
@@ -414,33 +414,34 @@ if [ $rep1 -eq 0 ] ; then
     getTime=$(date +%s)
 
     if [ $# -ne 4 ] ; then
-        echo $2 station:Capacity:Consuption > tests/"$2"_"$3".csv
-        sort -t ':' -k 3 test.csv >> tests/"$2"_"$3".csv
+        echo $2 station:Capacity:Consuption $3 > tests/"$2"_"$3".csv #create a new file based on the arguments gived 
+        sort -t ':' -k 2 -n test.csv >> tests/"$2"_"$3".csv #add the file generated by the c program in the new file and sort it
 
-        ifLvAll tests/"$2"_"$3".csv $@
+        ifLvAll tests/"$2"_"$3".csv $@ #usefull to generate minMax
 
-        #cat test.csv >> tests/"$2"_"$3".csv
-        rm -f test.csv
-        createGraph tests/"$2"_"$3".csv $2 $3 def
+        rm -f test.csv #remove the original file generated by the c program
+
+        createGraph tests/"$2"_"$3".csv $2 $3 def #create the graph
         
-        if [ -e tests/"$2"_"$3"minmax.csv ] ; then
+        if [ -e tests/"$2"_"$3"minmax.csv ] ; then #create the minMax graph
             createGraph tests/"$2"_"$3"minmax.csv $2 $3 minmax
         fi
 
 
     else
-        echo $2 station:Capacity:Consuption > tests/"$2"_"$3"_"$4".csv
-        sort -t ':' -k 3 test.csv >> tests/"$2"_"$3"_"$4".csv
+
+        echo $2 station:Capacity:Consuption $3 > tests/"$2"_"$3"_"$4".csv
+        sort -t ':' -k 2 -n test.csv >> tests/"$2"_"$3"_"$4".csv
 
         ifLvAll tests/"$2"_"$3"_"$4".csv $@
 
-        #cat test.csv >> tests/"$2"_"$3"_"$4".csv
         rm -f test.csv
         createGraph tests/"$2"_"$3"_"$4".csv $2 $3 $4 def
 
         if [ -e tests/"$2"_"$3"_"$4"minmax.csv ] && [ "$2" == "lv" ] && [ "$3" == "all" ] ; then
             createGraph tests/"$2"_"$3"_"$4"minmax.csv $2 $3 $4 minmax
         fi
+
     fi
 
     deltaT=$(( $(date +%s) - getTime ))
@@ -450,13 +451,13 @@ if [ $rep1 -eq 0 ] ; then
     
 
     
-    sup=$(make -C codeC/ clean)
+    sup=$(make -C codeC/ clean) #clean the .o file and the exe of the codeC directory
 
 
 
 
 
-else 
+else #summon the help option
 
     echo $test
 

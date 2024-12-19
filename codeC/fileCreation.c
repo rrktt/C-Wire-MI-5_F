@@ -1,6 +1,6 @@
 #include "fileCreation.h"
 
-FILE * openFile(char * f, char * w){
+FILE * openFile(char * f, char * w){ //open a file (f) or create the file with the arguments gived (w)
 
     FILE * file = NULL;
     file = fopen(f, w);
@@ -15,9 +15,9 @@ FILE * openFile(char * f, char * w){
 
 }
 
-void browsefile(char * file_path, char * file_path2){
+void browsefile(char * file_path, char * file_path2){ //fonction to read the file and put the value in a AVL and put AVL values on a new file
 
-    FILE * file = openFile(file_path, "r");
+    FILE * file = openFile(file_path, "r"); // open the data file
 
     pAvl a = NULL;
     Station * s;
@@ -37,41 +37,41 @@ void browsefile(char * file_path, char * file_path2){
 
     while (testcentral != EOF && testcapa != EOF && testgiv != EOF){
         
-        testcentral = fscanf(file, "%d", &central);
+        testcentral = fscanf(file, "%d", &central); //take the central id
         
 
         if (testcentral != EOF){
 
 
-            testcapa = fscanf(file, "%ld", &capa);
+            testcapa = fscanf(file, "%ld", &capa); //take the capacity value
 
 
 
-            testgiv = fscanf(file, "%ld", &giv);
+            testgiv = fscanf(file, "%ld", &giv); //take the consomation value
 
 
-            nv = searchAvl(a, central);
+            nv = searchAvl(a, central);//research the central id inside the AVL
 
-            if(nv == NULL){
+            if(nv == NULL){// if it dont found the central
 
-                s = createStation(central, capa, giv);
-                a = insertAvl(a, s, &h);
+                s = createStation(central, capa, giv); //create the station
+                a = insertAvl(a, s, &h); //insert the station in the AVL
                 
             }
-            else{
-                nv->sta->give += giv;
-                nv->sta->capacity += capa;
+            else{ //if it found the central
+                nv->sta->give += giv; //add the consomation
+                nv->sta->capacity += capa; //add the capacity
             }
         
         }
 
     }
 
-    FILE * output = openFile(file_path2, "w");
+    FILE * output = openFile(file_path2, "w"); //create the output file
 
-    infix(output, a);
+    infix(output, a); //place the AVL values in the new file
 
-    freePostfix(a);
+    freePostfix(a); //free the AVL
 
 
 }

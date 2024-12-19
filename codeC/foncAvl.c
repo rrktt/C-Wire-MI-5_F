@@ -1,15 +1,15 @@
 #include "foncAvl.h"
 
 
-Station * createStation(int nb, long int capa, long int give){
+Station * createStation(int nb, long int capa, long int give){ //create a station
 
-    Station * stat = malloc(sizeof(Station));
+    Station * stat = malloc(sizeof(Station)); //allocation 
 
-    if(stat == NULL){
+    if(stat == NULL){ //verification
         exit(2);
     }
 
-
+    //give the values
     stat->nb = nb;
     stat->capacity = capa;
     stat->give = give;
@@ -19,15 +19,15 @@ Station * createStation(int nb, long int capa, long int give){
 }
 
 
-pAvl createAvl(Station * x){
+pAvl createAvl(Station * x){ //create AVL node
     
-    pAvl pa = malloc(sizeof(Avl));
+    pAvl pa = malloc(sizeof(Avl));//allocation 
 
-    if(pa == NULL){
+    if(pa == NULL){//verification
         exit(1);
     }
 
-
+    //give the values
     pa->sta = x;
     pa->rightson = NULL;
     pa->leftson = NULL;
@@ -37,7 +37,7 @@ pAvl createAvl(Station * x){
 
 }
 
-int max(int a, int b){
+int max(int a, int b){ // give the max between a and b
     if(a>=b){
         return a;
     }
@@ -46,7 +46,7 @@ int max(int a, int b){
     }
 }
 
-int min(int a, int b){
+int min(int a, int b){// give the min between a and b
 
     if(a<b){
         return a;
@@ -58,7 +58,7 @@ int min(int a, int b){
 
 }
 
-pAvl LeftRota(pAvl a){
+pAvl LeftRota(pAvl a){ // A left rotation for a ALV
 
     pAvl piv = a->rightson;
     int eq_a, eq_p;
@@ -82,7 +82,7 @@ pAvl LeftRota(pAvl a){
 
 }
 
-pAvl RightRota(pAvl a){
+pAvl RightRota(pAvl a){ // A right rotation for a ALV
 
     pAvl piv = a->leftson;
     int eq_a, eq_p;
@@ -105,19 +105,19 @@ pAvl RightRota(pAvl a){
 
 }
 
-pAvl dLeftRota(pAvl a){
+pAvl dLeftRota(pAvl a){// A double left rotation for a ALV
 
     a->rightson = RightRota(a->rightson);
     return LeftRota(a);
 
 }
 
-pAvl dRightRota(pAvl a){
+pAvl dRightRota(pAvl a){ // A double right rotation for a ALV
     a->leftson = LeftRota(a->leftson);
     return RightRota(a);
 }
 
-pAvl balAvl(pAvl a){
+pAvl balAvl(pAvl a){ // fonction to balance the AVL
 
     if(a->balance >= 2){
         if(a->rightson->balance >= 0){

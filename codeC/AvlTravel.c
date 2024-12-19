@@ -1,7 +1,7 @@
 #include "AvlTravel.h"
 
-pAvl insertAvl(pAvl a, Station * s, int * h){
-    if(a == NULL){
+pAvl insertAvl(pAvl a, Station * s, int * h){ //insert a station in the AVL
+    if(a == NULL){ //place to put the node is find
         *h = 1;
         return createAvl(s);
     }
@@ -17,7 +17,7 @@ pAvl insertAvl(pAvl a, Station * s, int * h){
         return a;
     }
 
-    if(*h != 0){
+    if(*h != 0){//checks the stability of the AVL
         a->balance = a->balance + *h;
         a = balAvl(a);
         if(a->balance == 0){
@@ -31,12 +31,12 @@ pAvl insertAvl(pAvl a, Station * s, int * h){
 
 }
 
-pAvl searchAvl(pAvl a, int nb){
+pAvl searchAvl(pAvl a, int nb){ // search a station in the AVL
 
-    if(a == NULL){
+    if(a == NULL){ //if the station is not found
         return NULL;
     }
-    else if( a->sta->nb == nb ){
+    else if( a->sta->nb == nb ){ //if the station is found
         return a;
     }
     else if( nb < a->sta->nb){
@@ -48,7 +48,7 @@ pAvl searchAvl(pAvl a, int nb){
 
 }
 
-void infix(FILE * file, pAvl a){
+void infix(FILE * file, pAvl a){ // infix path and place the values in the output file
 
     if(a != NULL){
         
@@ -62,7 +62,7 @@ void infix(FILE * file, pAvl a){
 
 }
 
-void freePostfix(pAvl a){
+void freePostfix(pAvl a){ // free all the AVL and always starts by freeing the leaves
 
     if(a != NULL){
 
