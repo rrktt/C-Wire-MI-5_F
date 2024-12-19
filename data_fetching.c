@@ -38,12 +38,11 @@ Station stationCreation(int powerplant_f,int hvb_stationf,int hva_stationf,int l
     }
     return new;
 }
-Station single_line(){    //takes values from a single line and asign them to integers
-    char a[]="";
+Station single_line(char *string){    //takes values from a single line and asign them to integers
     Station new;
     int power_plantf,hvb_stationf,hva_stationf,lv_stationf,companyf,individualf,capacityf,loadf,temp;
     const char* separator=";"; //defines the separation character
-    char strtoken =   strtok(a,separator); //use strtok to collect each string from one line 
+    char strtoken =   strtok(string,separator); //use strtok to collect each number string from a single line 
     int i = 0;
     while(strtoken!=NULL){
         if(strtoken!=NULL){
