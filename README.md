@@ -20,6 +20,8 @@ Final step press enter and if all the elements have been put in the right way th
 
 If you want help you can put "-h" as an argument to have the details of the arguments to place.
 
+The values ​​of the file created by the c program are then sorted by increasing capacity as requested in the expectations
+
 EXEMPLE: - "bash c-wire.sh /Users/"USERNAME"/Desktop/c-wire_v25.dat hva comp"
         - "bash c-wire.sh /Users/"USERNAME"/Desktop/c-wire_v25.dat lv all 1"
         - "bash c-wire.sh -h"

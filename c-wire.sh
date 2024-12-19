@@ -278,7 +278,7 @@ createGraph(){ #Creation of the histogram with gnuplot
          set boxwidth 0.7
          set style fill solid 
 
-         plot "$1" using 2 t "Capacity", '' using 3 t "Consumption" 
+         plot "$1" using 2 t "Capacity" lc rgb "green", '' using 3 t "Consumption" lc rgb "red"
 EOF
 
     else
@@ -304,7 +304,7 @@ EOF
          set boxwidth 0.7
          set style fill solid 
 
-         plot "$1" using 2 t "Capacity", '' using 3 t "Consumption" 
+         plot "$1" using 2 t "Capacity" lc rgb "green", '' using 3 t "Consumption" lc rgb "red"
 EOF
 
     fi
@@ -385,7 +385,7 @@ if [ $rep1 -eq 0 ] ; then #if arguments are correct
 
     deltaT=$(( $(date +%s) - getTime )) #get the time to do the operation
 
-    echo "time to cp the input data file : $deltaT"
+    echo "time to copy the input data file : $deltaT s"
 
 
 
@@ -395,7 +395,7 @@ if [ $rep1 -eq 0 ] ; then #if arguments are correct
 
     deltaT=$(( $(date +%s) - getTime ))
 
-    echo "time to create tmp files : $deltaT"
+    echo "time to create temporary files : $deltaT s"
 
 
 
@@ -405,8 +405,10 @@ if [ $rep1 -eq 0 ] ; then #if arguments are correct
     path2="$path/test.csv"
 
 
-    exex=$(make -C codeC/) #compilation
-    ./codeC/exe $path1 $path2 #run the c program
+    if [ ! -e codeC/exe ] ; then #tests the presence of the c executable
+        exex=$(make -C codeC/) #compilation
+        ./codeC/exe $path1 $path2 #run the c program
+    fi
 
 
 
@@ -446,7 +448,7 @@ if [ $rep1 -eq 0 ] ; then #if arguments are correct
 
     deltaT=$(( $(date +%s) - getTime ))
 
-    echo "time to create graph : $deltaT"
+    echo "time to create graph : $deltaT s"
 
     
 
