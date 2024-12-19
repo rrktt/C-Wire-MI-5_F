@@ -470,6 +470,8 @@ else #summon the help option
     echo "The third is the consumers you want to treat"
 
     echo "In option you can focus on a special power plant if it exist"
+
+    echo "For more information you have the README"
        
 fi
 
