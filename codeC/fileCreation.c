@@ -59,7 +59,7 @@ void browsefile(char * file_path, char * file_path2){ //fonction to read the fil
                 
             }
             else{ //if it found the central
-                nv->sta->give += giv; //add the consomation
+                nv->sta->give += giv; //add the consommation
                 nv->sta->capacity += capa; //add the capacity
             }
         
