@@ -408,12 +408,11 @@ if [ $rep1 -eq 0 ] ; then #if arguments are correct
 
     if [ ! -e codeC/exe ] ; then #tests the presence of the c executable
         exex=$(make -C codeC/) #compilation
-        ./codeC/exe $path1 $path2 #run the c program
     fi
+    
+    ./codeC/exe $path1 $path2 #run the c program
 
-
-
-    testgnu=$(gnuplot --version)
+    testgnu=$(gnuplot --version) #test if gnuplot exist
     isgnuplot=$?
     
     getTime=$(date +%s)

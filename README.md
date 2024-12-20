@@ -22,7 +22,15 @@ If you want help you can put "-h" as an argument to have the details of the argu
 
 The values ​​of the file created by the c program are then sorted by increasing capacity as requested in the expectations
 
-EXEMPLE: - "bash c-wire.sh /Users/"USERNAME"/Desktop/c-wire_v25.dat hva comp"
-        - "bash c-wire.sh /Users/"USERNAME"/Desktop/c-wire_v25.dat lv all 1"
-        - "bash c-wire.sh -h"
-        - "bash c-wire.sh /Users/"USERNAME"/Desktop/c-wire_v25.dat -h lv comp"
+EXEMPLE: 
+- "bash c-wire.sh /Users/"USERNAME"/Desktop/c-wire_v25.dat hva comp"
+- "bash c-wire.sh /Users/"USERNAME"/Desktop/c-wire_v25.dat lv all 1"
+- "bash c-wire.sh -h"
+- "bash c-wire.sh /Users/"USERNAME"/Desktop/c-wire_v25.dat -h lv comp"
+
+The program must return : 
+- A file named with the station's type and the targeted consumer and the particular power plant targeted if you notice it
+- A graph with all the capacity and consuption of all stations targeted sorted by increasing capacity
+
+- if lv all is specified : Another file named with the station's type and the targeted consumer and the particular power plant targeted if you notice it and if the number of station is greater than 21
+- And a minMax graph with all the capacity and consuption of all stations targeted sorted by increasing capacity
